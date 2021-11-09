@@ -1,0 +1,18 @@
+### Data settings
+data:
+  batch_size: 32
+  num_workers: 0
+  pin_memory: True
+  drop_last: True
+  data_dir: './data'
+
+### Model settings
+
+
+### Training settings
+
+
+### Sample settings
+
+
+### Probing settings

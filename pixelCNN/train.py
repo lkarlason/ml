@@ -10,6 +10,13 @@ def main(config):
     # Load data
     train_loader, test_loader = get_dataset(config.data)
     
+    if config.data.dataset == 'mnist':
+        channels = 1
+        size = 28
+    else:
+        channels = 3
+        size = 32
+    
     # Check devices
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print("Using device " + str(device))

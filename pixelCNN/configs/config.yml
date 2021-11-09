@@ -5,6 +5,7 @@ data:
   pin_memory: True
   drop_last: True
   data_dir: './data'
+  dataset: 'mnist'
 
 ### Model settings
 

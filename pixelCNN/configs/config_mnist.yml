@@ -13,6 +13,8 @@ model:
   nr_filters: 40
   input_channels: 1 
   nr_logistic_mix: 10
+  ema: False
+  ema_rate: 0.999
 
 ### Training settings
 training:

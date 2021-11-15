@@ -16,7 +16,9 @@ def get_dataset(config):
         [torch.utils.data.DataLoader]: iterator over test set.
     """
     kwargs = {'num_workers': config.num_workers, 'pin_memory': config.pin_memory, 'drop_last': config.drop_last}
-    ds_transforms = transforms.Compose([transforms.ToTensor()])
+    ## Not sure about this rescaling.
+    rescaling = lambda x: (x - .5) * 2.
+    ds_transforms = transforms.Compose([transforms.ToTensor(), rescaling])
     
     if config.dataset == 'cifar10':
         train_loader = data.DataLoader(

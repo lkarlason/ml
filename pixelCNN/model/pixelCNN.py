@@ -73,12 +73,18 @@ class PixelCNN(torch.nn.Module):
         self.init_padding = None
     
     def forward(self, x, sample=False):
-        ## Why is this done??
+        ## Not sure about this step.
         if self.init_padding is None and not sample:
             xs = [int(y) for y in x.size()]
             padding = torch.autograd.Variable(torch.ones(xs[0], 1, xs[2], xs[3]), requires_grad=False)
             self.init_padding = padding.cuda() if x.is_cuda else padding
-        
+       
+        if sample:
+            xs = [int(y) for y in x.size()]
+            padding = Variable(torch.ones(xs[0], 1, xs[2], xs[3]), requires_grad=False)
+            padding = padding.cuda() if x.is_cuda else padding
+            x = torch.cat((x, padding), 1)
+            
         ## UP PASS
         x = x if sample else torch.concat((x, self.init_padding), 1)
         u_list = [self.u_init(x)]
@@ -92,7 +98,6 @@ class PixelCNN(torch.nn.Module):
                 u_list += [self.downsize_u[i](u_list[-1])]
                 ul_list += [self.downsize_ul[i](ul_list[-1])]
         
-        
         ## DOWN PASS      
         u = u_list.pop()
         ul = ul_list.pop()  
@@ -102,7 +107,7 @@ class PixelCNN(torch.nn.Module):
             if i != 2:
                 u = self.upsize_u[i](u)
                 ul = self.upsize_ul[i](ul)
-        x_out = self.nin(F.elu(ul))    
+        x_out = self.nin(F.elu(ul))
                     
         assert len(u_list) == len(ul_list) == 0, "Something went wrong during down pass."
         

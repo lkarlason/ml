@@ -49,3 +49,9 @@ def concat_elu(x):
     # Concatenated exponential linear unit.
     axis = len(x.size()) - 3
     return F.elu(torch.cat([x, -x], dim=axis))
+
+def mix_logistic_loss_1d(real, fake, likelihood=False):
+    return 0
+
+def mix_logistic_loss(real, fake, likelihood=False):
+    return 0

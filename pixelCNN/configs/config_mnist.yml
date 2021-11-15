@@ -1,0 +1,29 @@
+### Data settings
+data:
+  batch_size: 80
+  num_workers: 0
+  pin_memory: True
+  drop_last: True
+  data_dir: './data'
+  dataset: 'mnist'
+
+### Model settings
+model:
+  nr_resnet: 5
+  nr_filters: 40
+  input_channels: 1 
+  nr_logistic_mix: 10
+
+### Training settings
+training:
+  lr: 0.0002
+  lr_decay: 0.999995
+  epochs: 1000
+  print_every: 50
+  save_interval: 10
+  noise: 0.5
+
+### Sample settings
+
+
+### Probing settings

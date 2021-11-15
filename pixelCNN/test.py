@@ -1,11 +1,10 @@
 from data.dataset import get_dataset
 from utils.helpers import parse_args
-from model.pixelCNN import PixelCNN
 
 import torch
-import time
 
-CONFIG_FILE = 'config_mnist.yml'
+
+CONFIG_FILE = 'config.yml'
 
 def main(config):
     # Load data
@@ -23,14 +22,11 @@ def main(config):
     print("Using device " + str(device))
 
     # Create model
-    model = PixelCNN(config.model)
-    for x,y in train_loader:
-        start = time.time()
-        out = model(x)
-        print(out.size())
-        print("Forward pass took: " + str(time.time() - start))
+    for x, y in train_loader:
+        xs = [int(y) for y in x.size()]
+        padding = torch.autograd.Variable(torch.ones(xs[0], 1, xs[2], xs[3]), requires_grad=False)
+        print(torch.cat((x, padding), 1)[0, 1, :, :])
         break
-    
     
 
 if __name__ == "__main__":

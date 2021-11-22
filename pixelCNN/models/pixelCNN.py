@@ -73,7 +73,7 @@ class PixelCNN(torch.nn.Module):
         self.init_padding = None
     
     def forward(self, x, sample=False):
-        ## Not sure about this step.
+        ## Forward pass
         if self.init_padding is None and not sample:
             xs = [int(y) for y in x.size()]
             padding = torch.autograd.Variable(torch.ones(xs[0], 1, xs[2], xs[3]), requires_grad=False)
@@ -112,3 +112,43 @@ class PixelCNN(torch.nn.Module):
         assert len(u_list) == len(ul_list) == 0, "Something went wrong during down pass."
         
         return x_out
+
+    
+    def probe(self, x, k):
+        ## Linear probing at layer k
+        assert k <= 6, "Total number of layers in PixelCNN++ is 6."
+        count = 0
+        if self.init_padding is None:
+            xs = [int(y) for y in x.size()]
+            padding = torch.autograd.Variable(torch.ones(xs[0], 1, xs[2], xs[3]), requires_grad=False)
+            self.init_padding = padding.cuda() if x.is_cuda else padding
+
+        ## UP PASS
+        x = torch.concat((x, self.init_padding), 1)
+        u_list = [self.u_init(x)]
+        ul_list = [self.ul_init[0](x) + self.ul_init[1](x)]
+        for i in range(3):
+            count += 1
+            u_out, ul_out = self.up_layers[i](u_list[-1], ul_list[-1])
+            u_list += u_out
+            ul_list += ul_out
+
+            if i != 2:
+                u_list += [self.downsize_u[i](u_list[-1])]
+                ul_list += [self.downsize_ul[i](ul_list[-1])]
+            
+            if count == k:
+                return ul_list[-1]
+        
+        ## DOWN PASS      
+        u = u_list.pop()
+        ul = ul_list.pop()  
+        for i in range(3):
+            count += 1
+            u, ul = self.down_layers[i](u, ul, u_list, ul_list)
+
+            if i != 2:
+                u = self.upsize_u[i](u)
+                ul = self.upsize_ul[i](ul)
+            if count == k:
+                return ul

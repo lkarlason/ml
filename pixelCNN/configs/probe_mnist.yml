@@ -1,0 +1,21 @@
+#### training:
+noise: 0.5
+
+model:
+  ema: False
+  ema_rate: 0.999
+
+## MNIST
+data_dir: runs/mnist
+dataset: mnist
+nr_resnet: 5
+nr_filters: 40
+nr_logistic_mix: 10
+input_channels: 1
+
+
+batch_size: 80
+lr: 0.0002
+lr_decay: 0.999995
+max_epochs: 1000
+probe_layer: 1

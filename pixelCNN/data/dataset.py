@@ -5,6 +5,10 @@ import torchvision.datasets as datasets
 import argparse
 import matplotlib.pyplot as plt
 
+## Had to create real function instead of lambda: got AttributeError
+def rescaling(x):
+    return (x-.5)*2.
+
 def get_dataset(config):
     """ Downloads cifar 10 dataset from torchvision and loads data.
 
@@ -15,9 +19,8 @@ def get_dataset(config):
         [torch.utils.data.DataLoader]: iterator over training set.
         [torch.utils.data.DataLoader]: iterator over test set.
     """
-    kwargs = {'num_workers': config.num_workers, 'pin_memory': config.pin_memory, 'drop_last': config.drop_last}
-    ## Not sure about this rescaling.
-    rescaling = lambda x: (x - .5) * 2.
+    kwargs = {'num_workers': 1, 'pin_memory': True, 'drop_last': True}
+    # rescaling = lambda x: (x - .5) * 2.
     ds_transforms = transforms.Compose([transforms.ToTensor(), rescaling])
     
     if config.dataset == 'cifar10':

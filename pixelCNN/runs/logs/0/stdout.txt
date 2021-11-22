@@ -1,0 +1,38 @@
+INFO - main.py - 2021-11-22 18:09:21,845 - Using device: cpu
+INFO - main.py - 2021-11-22 18:09:21,846 - Writing log file to runs/logs/0
+INFO - main.py - 2021-11-22 18:09:21,846 - Exp instance id = 31752
+INFO - main.py - 2021-11-22 18:09:21,846 - Exp comment = 
+INFO - main.py - 2021-11-22 18:09:21,846 - Config =
+ERROR - main.py - 2021-11-22 18:10:06,050 - Traceback (most recent call last):
+  File "/Users/ludvig/Documents/folders/projects/ml/ml/pixelCNN/main.py", line 118, in main
+    runner.train()
+  File "/Users/ludvig/Documents/folders/projects/ml/ml/pixelCNN/runners/SmoothedTrainRunner.py", line 76, in train
+    output = model(input)
+  File "/usr/local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/torch/nn/parallel/data_parallel.py", line 150, in forward
+    return self.module(*inputs, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/Users/ludvig/Documents/folders/projects/ml/ml/pixelCNN/models/pixelCNN.py", line 105, in forward
+    u, ul = self.down_layers[i](u, ul, u_list, ul_list)
+  File "/usr/local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/Users/ludvig/Documents/folders/projects/ml/ml/pixelCNN/models/pixelCNN.py", line 42, in forward
+    ul = self.ul_stream[i](ul, x_skip=torch.cat((u, ul_list.pop()), 1))
+  File "/usr/local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/Users/ludvig/Documents/folders/projects/ml/ml/pixelCNN/utils/layers.py", line 130, in forward
+    x = self.conv_out(x)
+  File "/usr/local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1102, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/Users/ludvig/Documents/folders/projects/ml/ml/pixelCNN/utils/layers.py", line 58, in forward
+    x = self.conv(x)
+  File "/usr/local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1120, in _call_impl
+    result = forward_call(*input, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/torch/nn/modules/conv.py", line 446, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File "/usr/local/lib/python3.9/site-packages/torch/nn/modules/conv.py", line 442, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+KeyboardInterrupt
+
